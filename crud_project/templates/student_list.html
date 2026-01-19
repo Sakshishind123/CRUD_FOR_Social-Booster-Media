@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% block title %}Students - CRUD App{% endblock %}
+{% block content %}
+<style>
+    .student-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-size: 2.5em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+    }
+
+    .add-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        font-size: 1em;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .add-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .add-btn::before {
+        content: '➕';
+        font-size: 1.1em;
+    }
+
+    .table-wrapper {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: #667eea;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    thead th {
+        color: #ffffff !important;
+        padding: 20px;
+        text-align: left;
+        font-size: 1.1em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: transparent;
+        border: none;
+    }
+    
+    thead tr {
+        background: transparent;
+        border: none;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+
+    tbody tr:hover {
+        background: #f8f9ff;
+        transform: scale(1.01);
+    }
+
+    tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    tbody td {
+        padding: 20px;
+        color: #333;
+        font-size: 1em;
+    }
+
+    .actions-cell {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .edit-btn, .delete-btn {
+        border: none;
+        padding: 10px 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .edit-btn {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        box-shadow: 0 3px 10px rgba(79, 172, 254, 0.3);
+    }
+
+    .edit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 172, 254, 0.5);
+    }
+
+    .edit-btn::before {
+        content: '✏️';
+    }
+
+    .delete-btn {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        box-shadow: 0 3px 10px rgba(245, 87, 108, 0.3);
+    }
+
+    .delete-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(245, 87, 108, 0.5);
+    }
+
+    .delete-btn::before {
+        content: '🗑️';
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+
+    .empty-state-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    .empty-state-text {
+        font-size: 1.3em;
+        font-weight: 500;
+        color: #666;
+    }
+
+    .student-count {
+        display: inline-block;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-left: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .header-section {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-title {
+            font-size: 2em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            min-width: 600px;
+        }
+
+        .actions-cell {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .edit-btn, .delete-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="student-container">
+    <div class="header-section">
+        <div>
+            <h2 class="page-title">
+                Student List
+                <span class="student-count">{{ students|length }} Student{{ students|length|pluralize }}</span>
+            </h2>
+        </div>
+        <a href="{% url 'create_student' %}">
+            <button class="add-btn">Add New Student</button>
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td><strong>{{ student.name }}</strong></td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.phone }}</td>
+                    <td>
+                        <div class="actions-cell">
+                            <a href="{% url 'update_student' student.id %}">
+                                <button class="edit-btn">Edit</button>
+                            </a>
+                            <a href="{% url 'delete_student' student.id %}">
+                                <button class="delete-btn">Delete</button>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📚</div>
+                            <div class="empty-state-text">No students found. Add your first student to get started!</div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

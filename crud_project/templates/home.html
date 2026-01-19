@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% block title %}Home - CRUD App{% endblock %}
+{% block content %}
+<style>
+    .home-container {
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .slider {
+        width: 100%;
+        max-width: 800px;
+        height: 400px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 40px;
+    }
+
+    .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5em;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        padding: 40px;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .slide.active {
+        opacity: 1;
+    }
+
+    .slide1 {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .slide2 {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .slide3 {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .slider-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .dot.active {
+        background: white;
+        width: 30px;
+        border-radius: 6px;
+    }
+
+    .cta-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 18px 50px;
+        font-size: 1.2em;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    }
+
+    .cta-button:active {
+        transform: translateY(-1px);
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin-top: 60px;
+        width: 100%;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.3em;
+    }
+
+    .feature-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .slide {
+            font-size: 1.8em;
+            padding: 20px;
+        }
+
+        .slider {
+            height: 300px;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            font-size: 1.1em;
+        }
+    }
+</style>
+
+<div class="home-container">
+    <div class="slider">
+        <div class="slide slide1 active">Welcome to the Student CRUD App!</div>
+        <div class="slide slide2">Easily Add, Edit, and Delete Students</div>
+        <div class="slide slide3">Get Started Now!</div>
+        <div class="slider-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+    </div>
+
+    <a href="{% url 'student_list' %}" class="cta-button">Go to Student List</a>
+
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">➕</div>
+            <h3>Add Students</h3>
+            <p>Quickly add new student records with an intuitive interface</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">✏️</div>
+            <h3>Edit Records</h3>
+            <p>Update student information easily whenever needed</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🗑️</div>
+            <h3>Delete Entries</h3>
+            <p>Remove outdated records with a single click</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = slides.length;
+
+    function showSlide(n) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        currentSlide = (n + totalSlides) % totalSlides;
+        
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    function goToSlide(n) {
+        showSlide(n);
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    // Auto-advance slides every 4 seconds
+    setInterval(nextSlide, 4000);
+</script>
+{% endblock %}

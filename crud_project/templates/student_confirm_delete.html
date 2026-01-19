@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block title %}Delete Student{% endblock %}
+{% block content %}
+<style>
+    .delete-page-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #f093fb15 0%, #f5576c15 100%);
+    }
+
+    .delete-confirm {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        padding: 50px;
+        max-width: 550px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .delete-confirm::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .warning-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+        animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-10deg); }
+        75% { transform: rotate(10deg); }
+    }
+
+    .delete-confirm h2 {
+        font-size: 2em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 25px 0;
+    }
+
+    .delete-confirm p {
+        font-size: 1.2em;
+        color: #555;
+        margin-bottom: 35px;
+        line-height: 1.6;
+    }
+
+    .delete-confirm p strong {
+        color: #f5576c;
+        font-weight: 700;
+        font-size: 1.1em;
+    }
+
+    .warning-message {
+        background: #fff5f7;
+        border-left: 4px solid #f5576c;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+
+    .warning-message p {
+        margin: 0;
+        font-size: 0.95em;
+        color: #666;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .delete-btn {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border: none;
+        padding: 16px 35px;
+        font-size: 1.1em;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .delete-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+    }
+
+    .delete-btn:active {
+        transform: translateY(0);
+    }
+
+    .delete-btn::before {
+        content: '🗑️';
+        font-size: 1.2em;
+    }
+
+    .cancel-btn {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+        padding: 16px 35px;
+        font-size: 1.1em;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .cancel-btn:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .cancel-btn:active {
+        transform: translateY(0);
+    }
+
+    .cancel-btn::before {
+        content: '←';
+        font-size: 1.3em;
+    }
+
+    @media (max-width: 768px) {
+        .delete-confirm {
+            padding: 35px 25px;
+        }
+
+        .delete-confirm h2 {
+            font-size: 1.6em;
+        }
+
+        .delete-confirm p {
+            font-size: 1.1em;
+        }
+
+        .button-group {
+            flex-direction: column-reverse;
+        }
+
+        .delete-btn,
+        .cancel-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="delete-page-container">
+    <div class="delete-confirm">
+        <div class="warning-icon">⚠️</div>
+        <h2>Delete Student</h2>
+        <p>Are you sure you want to delete "<strong>{{ student.name }}</strong>"?</p>
+        
+        <div class="warning-message">
+            <p>⚠️ This action cannot be undone. All data associated with this student will be permanently removed.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="button-group">
+                <a href="{% url 'student_list' %}" class="cancel-btn">Cancel</a>
+                <button type="submit" class="delete-btn">Yes, Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
