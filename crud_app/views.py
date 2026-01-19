@@ -11,7 +11,7 @@ import requests
 from django.shortcuts import render
 
 def random_student(request):
-    response = requests.get('https://randomuser.me/api/?results=5')  # get 5 random users
+    response = requests.get('https://randomuser.me/api/?results=10&nat=us')  # get 5 random users
     data = response.json()
     students = []
     for user in data['results']:
