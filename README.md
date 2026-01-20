@@ -21,19 +21,19 @@ Technologies Used
 
 Project Overview
 
-This project is a full-stack Django application with the following features:
+This is a full-stack Django application that demonstrates:
 
-CRUD operations for Students (UI + REST API)
+CRUD operations for Students via UI and REST API
 
- Data Visualization (e.g., total students, status breakdown, trends over time)
+Dashboard / Data Visualization (total students, status breakdown, trends over time)
 
-Third-party API integration (fetches weather data for “Random Student” feature)
+Third-party API integration (fetches weather data for the “Random Student” feature)
 
 REST API endpoints for all CRUD operations
 
-Live deployment using the same database as the UI
+Live deployment with UI and API synced to the same database
 
-The project demonstrates full-stack development skills, API integration, and real-world reporting dashboards.
+The project showcases full-stack development skills, API integration, and reporting dashboards.
 
 Local Setup
 
@@ -48,7 +48,7 @@ Create and activate a virtual environment:
 python -m venv venv
 # Windows
 venv\Scripts\activate
-# Linux/Mac
+# Linux / Mac
 source venv/bin/activate
 
 
@@ -70,6 +70,9 @@ DEBUG=True
 DATABASE_URL=postgres://user:password@host:port/dbname
 THIRD_PARTY_API_KEY=your_api_key_here
 
+
+These variables allow safe configuration of your project for local and production environments.
+
 Database & Migrations
 
 Make migrations:
@@ -86,55 +89,52 @@ Create a superuser (optional, for admin access):
 
 python manage.py createsuperuser
 
-Running the Project Locally
+Running the Project
 
-Start the server:
+Start the development server:
 
 python manage.py runserver
 
 
-Access the app in your browser:
-
 Frontend UI: http://127.0.0.1:8000/
 
-API endpoints: http://127.0.0.1:8000/api/students/
+API Endpoints: http://127.0.0.1:8000/api/students/
+
+⚠️ The development server is for local testing only. Use Gunicorn / Whitenoise for production.
 
 Deployment Notes
 
-Deployed on Render / Heroku / any live server
+Deployed on Render / Heroku (or similar cloud service)
 
 Example live URL: https://crud_app.onrender.com/
 
-UI and API use the same database, so CRUD operations are synced
+UI and API share the same database, so CRUD operations are synchronized.
 
-How to Test
+Production uses DEBUG=False and environment variables for sensitive data.
+
+Testing
 1. Test CRUD via UI
 
-Navigate to http://127.0.0.1:8000/students/
+Navigate: /students/
 
 Create: Click “Add Student”, fill the form, submit
 
-Read: Students list displays all records
+Read: Student list displays all records
 
-Update: Click “Edit”, update fields, submit
+Update: Click “Edit”, modify fields, submit
 
 Delete: Click “Delete”, confirm deletion
 
 2. Test CRUD via REST API
 
-List Students (GET):
+Use Postman / Thunder Client / Curl:
 
-GET /api/students/
+List Students (GET): /api/students/
 
-
-Retrieve Student (GET):
-
-GET /api/students/<id>/
-
+Retrieve Student (GET): /api/students/<id>/
 
 Create Student (POST):
 
-POST /api/students/
 {
   "name": "John Doe",
   "email": "john@example.com",
@@ -143,46 +143,37 @@ POST /api/students/
 }
 
 
-Update Student (PUT/PATCH):
+Update Student (PUT / PATCH): /api/students/<id>/
 
-PUT /api/students/<id>/
-PATCH /api/students/<id>/
-
-
-Delete Student (DELETE):
-
-DELETE /api/students/<id>/
-
-
-Tip: Use Postman / Thunder Client / Curl for testing API requests.
+Delete Student (DELETE): /api/students/<id>/
 
 3. Test Dashboard / Reporting
 
-Open: http://127.0.0.1:8000/dashboard/
+Navigate: /dashboard/
 
 Check:
 
 Total students
 
-Active / Inactive status breakdown
+Active / Inactive breakdown
 
 Students added over time (trend chart)
 
-CRUD operations update the dashboard dynamically
+CRUD operations update the dashboard dynamically.
 
 4. Test Third-Party API Feature
 
-Open: http://127.0.0.1:8000/random-students/
+Navigate: /random-students/
 
-Verify weather data from external API (Open-Meteo) is displayed
+Check: Weather data from Open-Meteo API is displayed
 
 Project Structure
 crud_project/
 ├── crud_app/                  # Django app
-│   ├── migrations/            # DB migrations
-│   ├── templates/             # HTML templates
+│   ├── migrations/            # Database migrations
+│   ├── templates/             # HTML templates (UI)
 │   ├── views.py               # Views (UI + API)
-│   ├── models.py              # Models (Student)
+│   ├── models.py              # Student model
 │   ├── serializers.py         # DRF serializers
 │   ├── forms.py               # Forms for CRUD
 │   └── urls.py                # App-level URLs
@@ -192,7 +183,8 @@ crud_project/
 │   └── wsgi.py / asgi.py      # Deployment entry points
 ├── manage.py                  # Django CLI
 ├── requirements.txt           # Python dependencies
-└── README.md                  # This file
+├── .env.example               # Example environment variables
+└── README.md                  # Project documentation
 
 Technologies Used
 
@@ -204,10 +196,10 @@ Django REST Framework
 
 SQLite / PostgreSQL / Supabase
 
-HTML + CSS + Bootstrap (frontend)
+HTML + CSS + Bootstrap
 
 Chart.js (dashboard charts)
 
 Requests (third-party API integration)
 
-Gunicorn + Whitenoise (for deployment)
+Gunicorn + Whitenoise (for production deployment)
