@@ -8,21 +8,47 @@ from django.shortcuts import render
 from .models import Student
 import json
 import requests
-from django.shortcuts import render
+
+import requests
+from requests.exceptions import RequestException
 
 def random_student(request):
-    response = requests.get('https://randomuser.me/api/?results=10&nat=us')  # get 5 random users
-    data = response.json()
-    students = []
-    for user in data['results']:
-        students.append({
-            'name': f"{user['name']['first']} {user['name']['last']}",
-            'email': user['email'],
-            'phone': user['phone'],
-            'country': user['location']['country'],
-            'picture': user['picture']['medium'],
-        })
-    return render(request, 'random_students.html', {'students': students})
+    weather_data = {}
+
+    try:
+        response = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": 18.52,
+                "longitude": 73.85,
+                "current_weather": "true"
+            },
+            timeout=5
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        weather = data.get("current_weather", {})
+
+        weather_data = {
+            "city": "Pune",
+            "temperature": weather.get("temperature"),
+            "windspeed": weather.get("windspeed"),
+            "winddirection": weather.get("winddirection"),
+            "time": weather.get("time"),
+        }
+
+    except RequestException as e:
+        print("Weather API error:", e)
+        weather_data = {
+            "city": "Unavailable",
+            "temperature": "N/A",
+            "windspeed": "N/A",
+            "winddirection": "N/A",
+            "time": "N/A",
+        }
+
+    return render(request, "random_students.html", {"weather": weather_data})
 
 def dashboard(request):
     total_students = Student.objects.count()
@@ -90,6 +116,7 @@ def delete_student(request, id):
 
     if request.method == 'POST':
         student.delete()
+        
         return redirect('student_list')
 
     return render(request, 'student_confirm_delete.html', {'student': student})

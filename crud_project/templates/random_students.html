@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Suggested Students</h1>
-<div style="display:flex; flex-wrap:wrap; gap:20px;">
-    {% for s in students %}
-        <div style="border:1px solid #ddd; padding:15px; width:200px; text-align:center; border-radius:10px;">
-            <img src="{{ s.picture }}" alt="{{ s.name }}" style="border-radius:50%; width:80px; height:80px;">
-            <h4>{{ s.name }}</h4>
-            <p>{{ s.email }}</p>
-            <p>{{ s.phone }}</p>
-            <p>{{ s.country }}</p>
-        </div>
-    {% endfor %}
+
+<h1>Current Weather</h1>
+
+<div style="border:1px solid #ddd; padding:20px; width:300px; border-radius:10px;">
+    <h3>{{ weather.city }}</h3>
+    <p>🌡 Temperature: {{ weather.temperature }} °C</p>
+    <p>💨 Wind Speed: {{ weather.windspeed }} km/h</p>
+    <p>🧭 Wind Direction: {{ weather.winddirection }}°</p>
+    <p>⏰ Time: {{ weather.time }}</p>
 </div>
+
 {% endblock %}
