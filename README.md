@@ -124,7 +124,7 @@ Note: The development server is for local testing only. Use Gunicorn + Whitenois
 ## Deployment Notes
 
 * Deployed on Render 
-* Example live URL:https://crud-for-social-booster-media-4.onrender.com/
+* live URL:https://crud-for-social-booster-media-4.onrender.com/
 * UI and API share the same database, so CRUD operations are synchronized
 * Production uses DEBUG=False and environment variables for sensitive data
 
