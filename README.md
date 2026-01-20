@@ -68,7 +68,7 @@ Set the following variables:
 SECRET_KEY=your-django-secret-key
 DEBUG=True
 DATABASE_URL=postgres://user:password@host:port/dbname
-THIRD_PARTY_API_KEY=your_api_key_here
+THIRD_PARTY_API_KEY=(https://api.open-meteo.com/v1/forecast)
 
 
 These variables allow safe configuration of your project for local and production environments.
