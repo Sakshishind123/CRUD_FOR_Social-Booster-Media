@@ -75,7 +75,7 @@ Set the following variables in `.env`:
 SECRET_KEY=your-django-secret-key
 DEBUG=True
 DATABASE_URL=postgres://user:password@host:port/dbname
-THIRD_PARTY_API_KEY=your_open_meteo_api_key
+THIRD_PARTY_API_KEY=[your_open_meteo_api_key](https://api.open-meteo.com/v1/forecast)
 ```
 
 These variables allow safe configuration of your project for local and production environments.
@@ -123,8 +123,8 @@ Note: The development server is for local testing only. Use Gunicorn + Whitenois
 
 ## Deployment Notes
 
-* Deployed on Render / Heroku / similar cloud service
-* Example live URL: [https://crud_app.onrender.com/](https://crud_app.onrender.com/)
+* Deployed on Render 
+* Example live URL:https://crud-for-social-booster-media-4.onrender.com/
 * UI and API share the same database, so CRUD operations are synchronized
 * Production uses DEBUG=False and environment variables for sensitive data
 
