@@ -229,19 +229,12 @@ crud_project/
 * Python 3.12
 * Django 6.x
 * Django REST Framework
-* SQLite / PostgreSQL / Supabase
-* HTML + CSS + Bootstrap
-* Chart.js (dashboard charts)
+*PostgreSQL / Supabase
+* HTML + CSS
+* Dashboard chart
 * Requests (third-party API integration)
 * Gunicorn + Whitenoise (for production deployment)
 
 ```
 
----
 
-This version is **completely plain Markdown**, no extra bolding added beyond headings and lists, so when you paste it in GitHub, it will look perfect.
-
-If you want, I can **also make it visually rich** with **GitHub badges**, clickable Table of Contents links, and live deployment links so it looks super professional.  
-
-Do you want me to do that next?
-```
